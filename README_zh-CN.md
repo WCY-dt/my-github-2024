@@ -8,33 +8,71 @@
 
 ![example](example.png)
 
+
 ## 使用方法
 
-0. 准备 GitHub 访问令牌。你可以在 [Personal Access Tokens (Classic)](https://github.com/settings/tokens) 生成新令牌。
+### 0. **准备 GitHub 访问令牌**
 
-1. 修改根目录中的 `.env` 文件。并填写你的 GitHub 访问令牌、用户名和时区。
+在 [Personal Access Tokens (Classic)](https://github.com/settings/tokens) 页面生成一个新的 GitHub 访问令牌。
 
-    ```shell
-    GITHUB_ACCESS_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    GITHUB_USERNAME=your-github-username
-    GITHUB_TIMEZONE=Asia/Shanghai
-    ```
+---
 
-2. 运行以下命令安装依赖项。
+### 1. **创建并激活 Conda 虚拟环境**
 
-    ```shell
-    pip install -r requirements.txt
-    ```
+运行以下命令创建名为 `mygithub2024` 的虚拟环境，并指定 Python 版本：
 
-3. 运行以下命令启动程序。
+```shell
+conda create -n mygithub2024 python=3.12
+conda activate mygithub2024
+```
 
-    ```shell
-    python main.py
-    ```
+---
 
-4. 点击 VSCode 窗口右下角的 `Go Live` 按钮进行预览。
+### 2. **修改 `.env` 文件**
 
-    或者，您也可以在浏览器中打开 [`dist/index.html`](dist/index.html) 文件。
+在根目录中找到 `.env` 文件，并填写你的 GitHub 访问令牌、用户名和时区：
+
+```shell
+GITHUB_ACCESS_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+GITHUB_USERNAME=your-github-username
+GITHUB_TIMEZONE=Asia/Shanghai
+```
+
+---
+
+### 3. **安装依赖项**
+
+运行以下命令安装项目所需的依赖项：
+
+```shell
+pip install -r requirements.txt
+```
+
+---
+
+### 4. **启动程序**
+
+运行以下命令启动程序：
+
+```shell
+python main.py
+```
+
+---
+
+### 5. **预览项目**
+
+- 在 **VSCode** 中，点击窗口右下角的 `Go Live` 按钮进行预览。
+
+**或者**：
+
+- 在浏览器中直接打开：
+
+```shell
+dist/index.html
+```
+
+---
 
 ## TODO
 

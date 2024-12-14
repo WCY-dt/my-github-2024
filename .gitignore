@@ -9,3 +9,4 @@ dist/index.html
 dist/assets/img/
 
 avatar.*
+.env
