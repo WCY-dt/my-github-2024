@@ -14,13 +14,76 @@
 }
 
 body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     background-color: var(--background-color);
-    font-family: 'Roboto', sans-serif;
     margin: 0;
+    padding: 0;
     padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 40px;
+}
+
+button {
+    border-radius: 8px;
+    border: 1px solid rgba(27, 31, 36, 0.15);
+    font-weight: 600;
+    line-height: 20px;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    appearance: none;
+    -webkit-user-select: none;
+    user-select: none;
+    text-decoration: none;
+    text-align: center;
+    display: grid;
+    grid-template-areas: "leadingIcon text trailingIcon";
+    padding: 8px 22px;
+    font-size: 20px;
+    box-shadow: rgba(27, 31, 36, 0.1) 0px 1px 0px;
+    grid-area: text;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+#star {
+    color: rgb(36, 41, 47);
+    background-color: rgb(246, 248, 250);
+}
+
+#star:hover {
+    background-color: rgb(243, 244, 246);
+}
+
+#download {
+    color: rgb(255, 255, 255);
+    background-color: rgb(45, 164, 78);
+}
+
+#download:hover {
+    background-color: rgb(44, 151, 75);
+}
+
+button svg {
+    fill: currentcolor;
 }
 
 main {
+    font-family: 'Roboto', sans-serif;
+
     /* A4 paper */
     width: 21cm;
     height: 29.7cm;

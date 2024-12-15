@@ -3,29 +3,26 @@ from pprint import pprint
 import pytz
 from datetime import timedelta, timezone as dt_timezone
 
-from util.gh_fetch import load_token, load_timezone, get_github_info
+from util.gh_fetch import get_github_info
 import util.gh_filter as gh_filter
 import util.gh_count as gh_count
 import util.gh_sort as gh_sort
 
 
 class Github:
-    def __init__(self, access_token: str, username: str, timezone: str = "Asia/Shanghai"):
-        self.ACCESS_TOKEN = access_token
-        self.USERNAME = username
-        self.TIMEZONE = self._parse_timezone(timezone)
+    def __init__(
+        self, access_token: str, username: str, timezone: str = "Asia/Shanghai"
+    ):
+        self.access_token = access_token
+        self.username = username
+        self.timezone = self._parse_timezone(timezone)
         self.data = None
-
-        # print(f"Access token: {self.ACCESS_TOKEN}, Username: {self.USERNAME}, Timezone: {self.TIMEZONE}")
-
-        load_token(self.ACCESS_TOKEN)
-        load_timezone(self.TIMEZONE)
 
     def _parse_timezone(self, tz_str: str):
         try:
             return pytz.timezone(tz_str)
         except pytz.UnknownTimeZoneError:
-            if tz_str.startswith('+') or tz_str.startswith('-'):
+            if tz_str.startswith("+") or tz_str.startswith("-"):
                 hours_offset = int(tz_str)
                 timezone = dt_timezone(timedelta(hours=hours_offset))
                 return pytz.timezone(timezone)
@@ -33,7 +30,7 @@ class Github:
                 raise ValueError(f"Invalid timezone format: {tz_str}")
 
     def fetch_data(self):
-        self.data = get_github_info(self.USERNAME)
+        self.data = get_github_info(self.username, self.access_token, self.timezone)
         return self
 
     def filter_data(self, filter_type: str, year: int):
@@ -52,12 +49,12 @@ class Github:
         return self
 
     def filter_all(self, year: int):
-        for filter_type in ['commits', 'issues', 'prs', 'stars']:
+        for filter_type in ["commits", "issues", "prs", "stars"]:
             self.filter_data(filter_type, year)
         return self
 
     def filter_repos(self, year: int):
-        self.filter_data('repos', year)
+        self.filter_data("repos", year)
         return self
 
     def filter_json(self, key: dict):
@@ -86,12 +83,12 @@ class Github:
 
     def sort_all(self):
         for sort_type, sort_by in [
-            ('commits', 'time'),
-            ('repos', 'time'),
-            ('repos', 'stargazer'),
-            ('prs', 'time'),
-            ('issues', 'time'),
-            ('stars', 'time'),
+            ("commits", "time"),
+            ("repos", "time"),
+            ("repos", "stargazer"),
+            ("prs", "time"),
+            ("issues", "time"),
+            ("stars", "time"),
         ]:
             self.sort_data(sort_type, sort_by)
         return self

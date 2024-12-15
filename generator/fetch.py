@@ -1,5 +1,3 @@
-import os
-
 # from pprint import pprint
 
 KEY = {
@@ -32,17 +30,15 @@ KEY_NEW_REPO = {
     "languages_num": "dict",
 }
 
+
 def fetch_github(github, year: int, skip_fetch: bool = False) -> tuple:
     try:
         if not skip_fetch:
-            origin = github \
-                .fetch_data() \
-                .result
+            origin = github.fetch_data().result
 
         github.result = origin
         data = (
-            github
-            .filter_all(year=year)
+            github.filter_all(year=year)
             .sort_all()
             .count_all()
             .filter_json(key=KEY)
@@ -53,8 +49,7 @@ def fetch_github(github, year: int, skip_fetch: bool = False) -> tuple:
 
         github.result = origin
         data_new_repo = (
-            github
-            .filter_all(year=year)
+            github.filter_all(year=year)
             .filter_repos(year=year)
             .sort_all()
             .count_all()

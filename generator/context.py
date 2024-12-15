@@ -1,5 +1,4 @@
 from itertools import groupby
-import requests
 
 # from pprint import pprint
 
@@ -7,10 +6,8 @@ import requests
 def get_context(year: int, data: dict, data_new_repo: dict) -> dict:
     # pprint(data)
 
-    # Extract necessary data
-    AVATAR = requests.get(data["account_info"]["avatar"]).content
-
     YEAR = year
+    AVATAR = data["account_info"]["avatar"]
     USERNAME = data["account_info"]["username"]
     NAME = data["account_info"]["name"]
     CREATED_TIME = (int(data["account_info"]["created_time"]) + 99) // 100 * 100

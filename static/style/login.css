@@ -1,0 +1,84 @@
+:root {
+    --paper-color: #fdfdfd;
+    --black-color: #000;
+    --primary-color: #007bff;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    background-color: var(--paper-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+h1 {
+    margin: 0;
+    text-align: center;
+    background: linear-gradient(to bottom, var(--black-color) 20%, var(--primary-color));
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    font-size: 64px;
+    font-weight: 900;
+    font-style: normal;
+    margin-bottom: 40px;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+button {
+    border-radius: 8px;
+    border: 1px solid rgba(27, 31, 36, 0.15);
+    font-weight: 600;
+    line-height: 20px;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    appearance: none;
+    -webkit-user-select: none;
+    user-select: none;
+    text-decoration: none;
+    text-align: center;
+    display: grid;
+    grid-template-areas: "leadingIcon text trailingIcon";
+    padding: 8px 22px;
+    font-size: 20px;
+    box-shadow: rgba(27, 31, 36, 0.1) 0px 1px 0px;
+    grid-area: text;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+#star {
+    color: rgb(36, 41, 47);
+    background-color: rgb(246, 248, 250);
+}
+
+#star:hover {
+    background-color: rgb(243, 244, 246);
+}
+
+#login {
+    color: rgb(255, 255, 255);
+    background-color: rgb(45, 164, 78);
+}
+
+#login:hover {
+    background-color: rgb(44, 151, 75);
+}
+
+svg {
+    fill: currentcolor;
+}

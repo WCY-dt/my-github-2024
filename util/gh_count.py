@@ -1,6 +1,7 @@
 import re
 from datetime import datetime, timedelta
 
+
 def _get_commit_type(message: str) -> str:
     commit_type = re.split(r"[:(!/\s]", message)[0].lower()
     conventional_types = {
@@ -61,14 +62,13 @@ def commits_types_number(data):
 
     return data
 
+
 def commits_monthly_number(data):
     commits_monthly = {}
     for repo in data["repos_details"]:
         repo_commits_monthly = {}
         for commit in repo["commits_details"]:
-            commit_month = datetime \
-                .fromisoformat(commit["created_time"]) \
-                .month
+            commit_month = datetime.fromisoformat(commit["created_time"]).month
 
             if commit_month in repo_commits_monthly:
                 repo_commits_monthly[commit_month] += 1
@@ -87,7 +87,6 @@ def commits_monthly_number(data):
                 repo_commits_monthly_list.append(0)
         repo["commits_monthly_num"] = repo_commits_monthly_list
 
-    
     commits_monthly_list = []
     for i in range(1, 13):
         if i in commits_monthly:
@@ -104,9 +103,7 @@ def commits_weekdaily_number(data):
     for repo in data["repos_details"]:
         repo_commits_weekly = {}
         for commit in repo["commits_details"]:
-            commit_weekday = datetime \
-                .fromisoformat(commit["created_time"]) \
-                .weekday()
+            commit_weekday = datetime.fromisoformat(commit["created_time"]).weekday()
 
             if commit_weekday in repo_commits_weekly:
                 repo_commits_weekly[commit_weekday] += 1
@@ -141,10 +138,9 @@ def commits_daily_number(data):
     for repo in data["repos_details"]:
         repo_commits_daily = {}
         for commit in repo["commits_details"]:
-            commit_date = datetime \
-                .fromisoformat(commit["created_time"]) \
-                .date() \
-                .isoformat()
+            commit_date = (
+                datetime.fromisoformat(commit["created_time"]).date().isoformat()
+            )
 
             if commit_date in repo_commits_daily:
                 repo_commits_daily[commit_date] += 1
@@ -195,9 +191,7 @@ def commits_hourly_number(data):
     for repo in data["repos_details"]:
         repo_commits_hourly = {}
         for commit in repo["commits_details"]:
-            commit_hour = datetime \
-                .fromisoformat(commit["created_time"]) \
-                .hour
+            commit_hour = datetime.fromisoformat(commit["created_time"]).hour
 
             if commit_hour in repo_commits_hourly:
                 repo_commits_hourly[commit_hour] += 1
@@ -207,7 +201,7 @@ def commits_hourly_number(data):
                 commits_hourly[commit_hour] += 1
             else:
                 commits_hourly[commit_hour] = 1
-                
+
         repo_commits_hourly_list = []
         for i in range(24):
             if i in repo_commits_hourly:
@@ -291,9 +285,7 @@ def prs_number(data):
 
 
 def prs_merged_number(data):
-    merged_prs_number = len(
-        list(filter(lambda x: x["merged"], data["prs_details"]))
-    )
+    merged_prs_number = len(list(filter(lambda x: x["merged"], data["prs_details"])))
     data["prs_merged_num"] = merged_prs_number
 
     return data

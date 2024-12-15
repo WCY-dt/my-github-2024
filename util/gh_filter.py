@@ -7,9 +7,13 @@ def _filter_year(data, key: str, year: int):
 
 def commits_year(data, year: int):
     for repo in data["repos_details"]:
-        repo["commits_details"] = _filter_year(repo["commits_details"], "created_time", year)
+        repo["commits_details"] = _filter_year(
+            repo["commits_details"], "created_time", year
+        )
 
-    data["repos_details"] = list(filter(lambda x: len(x["commits_details"]) > 0, data["repos_details"]))
+    data["repos_details"] = list(
+        filter(lambda x: len(x["commits_details"]) > 0, data["repos_details"])
+    )
 
     return data
 
