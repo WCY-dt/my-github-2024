@@ -1,5 +1,8 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/my-github-2024.py" }
+  "builds": [
+    { "src": "my-github-2024.py", "use": "@vercel/python" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "my-github-2024.py" }
   ]
 }
