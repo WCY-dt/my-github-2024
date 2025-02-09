@@ -171,7 +171,8 @@ def _get_repo(
                 end_cursor = page_info.get("endCursor")
                 if not end_cursor:
                     raise ValueError(
-                        "`endCursor` not in repo['defaultBranchRef']['target']['history']['pageInfo']"
+                        "`endCursor` not in repo['defaultBranchRef']['target']"
+                        "['history']['pageInfo']"
                     )
 
                 commit_after = end_cursor

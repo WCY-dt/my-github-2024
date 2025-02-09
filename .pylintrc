@@ -120,7 +120,10 @@ disable=raw-checker-failed,
         too-many-locals,
         too-many-arguments,
         too-many-positional-arguments,
-        broad-exception-caught
+        broad-exception-caught,
+        too-many-branches,
+        too-many-statements,
+        too-many-nested-blocks,
 enable=
 [METHOD_ARGS]
 timeout-methods=requests.api.delete,requests.api.get,requests.api.head,requests.api.options,requests.api.patch,requests.api.post,requests.api.put,requests.api.request

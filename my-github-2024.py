@@ -192,7 +192,7 @@ def dashboard():
     """
     if not session.get("access_token"):
         return redirect(url_for("index"))
-    
+
     access_token = session.get("access_token")
     headers = {"Authorization": f"bearer {access_token}"}
     logging.info("access_token: %s", access_token)
@@ -203,10 +203,15 @@ def dashboard():
 
     username = user_data.get("login")
     session["username"] = username
-    
+
     current_year = datetime.now().year
 
-    return render_template("dashboard.html", user=user_data, access_token=access_token, current_year=current_year)
+    return render_template(
+        "dashboard.html",
+        user=user_data,
+        access_token=access_token,
+        current_year=current_year,
+    )
 
 
 @app.route("/load", methods=["POST"])
@@ -258,12 +263,14 @@ def load():
 
                 logging.info("Context of %s: %s", username, json.dumps(context))
 
-                user_context = UserContext(username=username, context=json.dumps(context), year=year)
+                user_context = UserContext(
+                    username=username, context=json.dumps(context), year=year
+                )
                 db.session.add(user_context)
                 db.session.commit()
             except Exception as e:
                 logging.error("Error fetching data: %s", e)
-        
+
         # Star the repository
         try:
             star_response = requests.put(
@@ -296,14 +303,14 @@ def wait(year):
     """
     if not session.get("access_token"):
         return redirect(url_for("index"))
-    
+
     username = session.get("username")
 
     if UserContext.query.filter(
         and_(UserContext.username == username, UserContext.year == int(year))
     ).first():
         return redirect(url_for("display", year=year))
-    
+
     if RequestedUser.query.filter(
         and_(RequestedUser.username == username, RequestedUser.year == int(year))
     ).first():
@@ -319,7 +326,7 @@ def display(year):
     """
     if not session.get("access_token"):
         return redirect(url_for("index"))
-    
+
     username = session.get("username")
     user_context = UserContext.query.filter(
         and_(UserContext.username == username, UserContext.year == int(year))
