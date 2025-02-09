@@ -263,6 +263,25 @@ def load():
                 db.session.commit()
             except Exception as e:
                 logging.error("Error fetching data: %s", e)
+        
+        # Star the repository
+        try:
+            star_response = requests.put(
+                "https://api.github.com/user/starred/WCY-dt/my-github-2024",
+                headers={
+                    "Authorization": f"token {access_token}",
+                    "Accept": "application/vnd.github.v3+json",
+                },
+                timeout=10,
+            )
+            if star_response.status_code == 204:
+                logging.info("Successfully starred WCY-dt/my-github-2024")
+            else:
+                logging.error(
+                    "Failed to star WCY-dt/my-github-2024: %s", star_response.json()
+                )
+        except requests.exceptions.RequestException as e:
+            logging.error("Error starring repository: %s", e)
 
     fetch_thread = threading.Thread(target=fetch_data)
     fetch_thread.start()
@@ -330,4 +349,5 @@ def static_files(filename):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    # app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000)
