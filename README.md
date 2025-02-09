@@ -18,11 +18,15 @@
 
 ## Usage
 
+> [!TIP]
+>
+> **New feature**: Now you can select any year from 2008 to 2024 to generate a report.
+
 1. Visit [https://2024.ch3nyang.top](https://2024.ch3nyang.top).
 
 2. Click the `Sign in with GitHub` button and authorize login.
 
-3. Select your time zone, then click the `Generate` button, wait a few seconds, and you can view your activities on GitHub in 2024.
+3. Select your time zone and the year you want to generate, then click the `Generate` button, wait a few seconds, and you can view your activities on GitHub in 2024.
 
 ## Run locally
 
@@ -53,17 +57,13 @@
 4. Install dependencies:
 
     ```bash
-    pip3 install -r requirements.txt
+    pip install -r requirements.txt
     ```
 
 5. Run the project:
 
     ```bash
-    python3 my-github-2024.py
+    python my-github-2024.py
     ```
 
 6. Visit `http://127.0.0.1:5000` and complete!
-
-## Statistics
-
-[![Star History Chart](https://api.star-history.com/svg?repos=WCY-dt/my-github-2024&type=Date)](https://star-history.com/#WCY-dt/my-github-2024&Date)

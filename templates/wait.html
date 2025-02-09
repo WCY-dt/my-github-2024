@@ -38,5 +38,9 @@
       Processing data, please sit down and relax...
     </div>
   </body>
-  <script src="/static/js/wait.js"></script>
+  <script>
+    setInterval(function () {
+      window.location.href = '/display/{{ year }}';
+    }, 5000);
+  </script>
 </html>

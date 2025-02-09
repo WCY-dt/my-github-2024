@@ -6,12 +6,14 @@ import json
 import logging
 import os
 import threading
+from datetime import datetime
 
 import requests
 from dotenv import load_dotenv
 from flask import (Flask, jsonify, redirect, render_template, request,
                    send_from_directory, session, url_for)
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import and_
 
 from log.logging_config import setup_logging
 from util.context import get_context
@@ -48,8 +50,8 @@ class RequestedUser(db.Model):
     Model for requested GitHub users.
     """
 
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    username = db.Column(db.String(80), primary_key=True, nullable=False)
+    year = db.Column(db.Integer, primary_key=True, nullable=False)
 
 
 class UserContext(db.Model):
@@ -57,8 +59,8 @@ class UserContext(db.Model):
     Model for storing user context data.
     """
 
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    username = db.Column(db.String(80), primary_key=True, nullable=False)
+    year = db.Column(db.Integer, primary_key=True, nullable=False)
     context = db.Column(db.Text, nullable=False)
 
 
@@ -70,13 +72,19 @@ def db_preparation():
         db.create_all()
         missing_users = (
             db.session.query(RequestedUser)
-            .outerjoin(UserContext, RequestedUser.username == UserContext.username)
-            .filter(UserContext.username is None)
+            .outerjoin(
+                UserContext,
+                (RequestedUser.username == UserContext.username)
+                & (RequestedUser.year == UserContext.year),
+            )
+            .filter(UserContext.username.is_(None))
             .all()
         )
         for user in missing_users:
             logging.info("Missing user: %s", user.username)
-            db.session.query(RequestedUser).filter_by(username=user.username).delete()
+            db.session.query(RequestedUser).filter_by(
+                username=user.username, year=user.year
+            ).delete()
         db.session.commit()
 
 
@@ -182,6 +190,9 @@ def dashboard():
     """
     Endpoint for the dashboard page.
     """
+    if not session.get("access_token"):
+        return redirect(url_for("index"))
+    
     access_token = session.get("access_token")
     headers = {"Authorization": f"bearer {access_token}"}
     logging.info("access_token: %s", access_token)
@@ -192,12 +203,10 @@ def dashboard():
 
     username = user_data.get("login")
     session["username"] = username
+    
+    current_year = datetime.now().year
 
-    if UserContext.query.filter_by(username=username).first():
-        return redirect(url_for("display"))
-    if RequestedUser.query.filter_by(username=username).first():
-        return redirect(url_for("wait"))
-    return render_template("dashboard.html", user=user_data, access_token=access_token)
+    return render_template("dashboard.html", user=user_data, access_token=access_token, current_year=current_year)
 
 
 @app.route("/load", methods=["POST"])
@@ -212,23 +221,35 @@ def load():
     timezone = str(data.get("timezone"))
     year = int(data.get("year"))
 
-    if (not all([access_token, username, timezone, year])) or year < 2008 or year > 2030:
+    current_year = int(datetime.now().year)
+
+    if (not all([access_token, username, timezone, year])) or year < 2008 or year > current_year:
         return jsonify({"redirect_url": url_for("index")})
-        
+
     session["access_token"] = access_token
     session["username"] = username
     session["timezone"] = timezone
     session["year"] = year
 
+    if UserContext.query.filter(
+        and_(UserContext.username == username, UserContext.year == year)
+    ).first():
+        return jsonify({"redirect_url": url_for("display", year=year)})
+
+    if RequestedUser.query.filter(
+        and_(RequestedUser.username == username, RequestedUser.year == year)
+    ).first():
+        return jsonify({"redirect_url": url_for("wait", year=year)})
+
     try:
-        requested_user = RequestedUser(username=username)
+        requested_user = RequestedUser(username=username, year=year)
         db.session.add(requested_user)
         db.session.commit()
     except Exception as e:
         logging.error("Error saving requested user: %s", e)
 
     if not all([username, access_token, year, timezone]):
-        return jsonify({"redirect_url": url_for("index", year=year)})
+        return jsonify({"redirect_url": url_for("index")})
 
     def fetch_data():
         with app.app_context():
@@ -236,8 +257,8 @@ def load():
                 context = get_context(username, access_token, year, timezone)
 
                 logging.info("Context of %s: %s", username, json.dumps(context))
-                
-                user_context = UserContext(username=username, context=json.dumps(context))
+
+                user_context = UserContext(username=username, context=json.dumps(context), year=year)
                 db.session.add(user_context)
                 db.session.commit()
             except Exception as e:
@@ -246,27 +267,44 @@ def load():
     fetch_thread = threading.Thread(target=fetch_data)
     fetch_thread.start()
 
-    return jsonify({"redirect_url": url_for("wait")})
+    return jsonify({"redirect_url": url_for("wait", year=year)})
 
 
-@app.route("/wait", methods=["GET"])
-def wait():
+@app.route("/wait/<path:year>", methods=["GET"])
+def wait(year):
     """
     Endpoint for the wait page.
     """
+    if not session.get("access_token"):
+        return redirect(url_for("index"))
+    
     username = session.get("username")
-    if UserContext.query.filter_by(username=username).first():
-        return redirect(url_for("display"))
-    return render_template("wait.html")
+
+    if UserContext.query.filter(
+        and_(UserContext.username == username, UserContext.year == int(year))
+    ).first():
+        return redirect(url_for("display", year=year))
+    
+    if RequestedUser.query.filter(
+        and_(RequestedUser.username == username, RequestedUser.year == int(year))
+    ).first():
+        return render_template("wait.html", year=year)
+
+    return render_template("dashboard.html")
 
 
-@app.route("/display", methods=["GET"])
-def display():
+@app.route("/display/<path:year>", methods=["GET"])
+def display(year):
     """
     Endpoint for the display page.
     """
+    if not session.get("access_token"):
+        return redirect(url_for("index"))
+    
     username = session.get("username")
-    user_context = UserContext.query.filter_by(username=username).first()
+    user_context = UserContext.query.filter(
+        and_(UserContext.username == username, UserContext.year == int(year))
+    ).first()
 
     logging.info("Display user context: %s", username)
 
@@ -274,7 +312,13 @@ def display():
         return render_template(
             "template.html", context=json.loads(user_context.context)
         )
-    return redirect(url_for("wait"))
+
+    if RequestedUser.query.filter(
+        and_(RequestedUser.username == username, RequestedUser.year == int(year))
+    ).first():
+        return redirect(url_for("wait", year=year))
+
+    return redirect(url_for("dashboard"))
 
 
 @app.route("/static/<path:filename>", methods=["GET"])
@@ -286,4 +330,4 @@ def static_files(filename):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)

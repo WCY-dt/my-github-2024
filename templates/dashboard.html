@@ -30,28 +30,40 @@
       <input type="text" id="username" name="username" value="{{ user.login }}" disabled>
       <label for="timezone">Timezone</label>
       <select id="timezone" name="timezone">
+        <option value="Africa/Cairo">Africa/Cairo</option>
         <option value="Africa/Johannesburg">Africa/Johannesburg</option>
         <option value="America/Chicago">America/Chicago</option>
-        <option value="America/Los_Angeles">America/Los_Angeles</option>
-        <option value="America/Mexico_City">America/Mexico_City</option>
-        <option value="America/New_York">America/New_York</option>
-        <option value="America/Sao_Paulo">America/Sao_Paulo</option>
+        <option value="America/Denver">America/Denver</option>
+        <option value="America/Los_Angeles">America/LosAngeles</option>
+        <option value="America/Mexico_City">America/MexicoCity</option>
+        <option value="America/New_York">America/NewYork</option>
+        <option value="America/Sao_Paulo">America/SaoPaulo</option>
+        <option value="America/Toronto">America/Toronto</option>
         <option value="Asia/Dubai">Asia/Dubai</option>
-        <option value="Asia/Hong_Kong">Asia/Hong_Kong</option>
+        <option value="Asia/Hong_Kong">Asia/HongKong</option>
         <option value="Asia/Kolkata">Asia/Kolkata</option>
+        <option value="Asia/Manila">Asia/Manila</option>
+        <option value="Asia/Seoul">Asia/Seoul</option>
         <option value="Asia/Shanghai" selected>Asia/Shanghai</option>
         <option value="Asia/Singapore">Asia/Singapore</option>
         <option value="Asia/Tokyo">Asia/Tokyo</option>
         <option value="Australia/Sydney">Australia/Sydney</option>
+        <option value="Europe/Amsterdam">Europe/Amsterdam</option>
         <option value="Europe/Berlin">Europe/Berlin</option>
         <option value="Europe/London">Europe/London</option>
+        <option value="Europe/Madrid">Europe/Madrid</option>
         <option value="Europe/Moscow">Europe/Moscow</option>
         <option value="Europe/Paris">Europe/Paris</option>
         <option value="Europe/Rome">Europe/Rome</option>
         <option value="Pacific/Auckland">Pacific/Auckland</option>
+        <option value="Pacific/Honolulu">Pacific/Honolulu</option>
       </select>
       <label for="year">Year</label>
-      <input type="text" id="year" name="year" value="2024" disabled>
+      <select id="year" name="year">
+        {% for year in range(2008, current_year + 1) %}
+          <option value="{{ year }}" {% if year == 2024 %}selected{% endif %}>{{ year }}</option>
+        {% endfor %}
+      </select>
       <button type="submit" id="generate">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
           <path

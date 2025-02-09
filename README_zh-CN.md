@@ -18,11 +18,15 @@
 
 ## 使用方法
 
+> [!TIP]
+>
+> **新功能**：现在支持选择 2008 年至 2024 年的任意年份生成报告。
+
 1. 访问 [https://2024.ch3nyang.top](https://2024.ch3nyang.top)。
 
 2. 点击 `Sign in with GitHub` 按钮，授权登录。
 
-3. 选择你所在的时区，然后点击 `Generate` 按钮，稍等几秒，即可查看 2024 年你在 GitHub 上的活动。
+3. 选择你所在的时区和需要生成的年份，然后点击 `Generate` 按钮，稍等几秒，即可查看 2024 年你在 GitHub 上的活动。
 
 ## 本地运行
 
@@ -53,17 +57,13 @@
 4. 安装依赖：
 
     ```bash
-    pip3 install -r requirements.txt
+    pip install -r requirements.txt
     ```
 
 5. 运行：
 
     ```bash
-    python3 my-github-2024.py
+    python my-github-2024.py
     ```
 
 6. 访问 `http://127.0.0.1:5000` 即可查看效果。
-
-## 统计
-
-[![Star History Chart](https://api.star-history.com/svg?repos=WCY-dt/my-github-2024&type=Date)](https://star-history.com/#WCY-dt/my-github-2024&Date)

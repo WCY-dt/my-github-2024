@@ -23,5 +23,5 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_KEY }}
-          port: 22
+          port: ${{ secrets.SERVER_PORT }}
           script_path: script/deploy.sh
