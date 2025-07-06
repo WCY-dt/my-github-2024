@@ -1,0 +1,40 @@
+# Ignore environment files (should be provided at runtime)
+.env
+.env.local
+.env.*.local
+
+# Ignore development files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.coverage
+.pytest_cache/
+.mypy_cache/
+.git/
+.gitignore
+README.md
+README_zh-CN.md
+
+# Ignore logs
+*.log
+log/*.log
+
+# Ignore database files (will be created in container)
+*.db
+
+# Ignore Docker files
+Dockerfile*
+docker-compose*.yml
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
