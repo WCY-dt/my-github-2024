@@ -347,6 +347,14 @@ def display(year):
     return redirect(url_for("dashboard"))
 
 
+@app.route("/health", methods=["GET"])
+def health_check():
+    """
+    Health check endpoint for Docker.
+    """
+    return jsonify({"status": "healthy", "timestamp": datetime.now().isoformat()})
+
+
 @app.route("/static/<path:filename>", methods=["GET"])
 def static_files(filename):
     """
