@@ -29,5 +29,12 @@
     "editor.tabSize": 2,
     "editor.formatOnSave": false
   },
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+  "python-envs.pythonProjects": [
+    {
+      "path": "",
+      "envManager": "ms-python.python:system",
+      "packageManager": "ms-python.python:pip"
+    }
+  ]
 }

@@ -14,8 +14,8 @@ from itertools import groupby
 
 import pytz
 
-from log.logging_config import setup_logging
-from util.fetch_data import get_github_info
+from utils.logging_config import setup_logging
+from utils.fetch_data import get_github_info
 
 setup_logging()
 

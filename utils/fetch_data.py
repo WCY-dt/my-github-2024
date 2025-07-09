@@ -11,7 +11,7 @@ import logging
 import requests
 from tenacity import retry, stop_after_attempt, wait_exponential
 
-from log.logging_config import setup_logging
+from utils.logging_config import setup_logging
 
 setup_logging()
 

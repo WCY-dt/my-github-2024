@@ -3,18 +3,18 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My GitHub 2024 | Dashboard</title>
-    <meta name="description" content="Statistics of your activities on GitHub in 2024.">
-    <meta name="keywords" content="GitHub, statistics, 2024, activity, repositories, commits, issues, pull requests">
+    <title>My GitHub {{ project_year }} | Dashboard</title>
+    <meta name="description" content="Statistics of your activities on GitHub in {{ project_year }}.">
+    <meta name="keywords" content="GitHub, statistics, {{ project_year }}, activity, repositories, commits, issues, pull requests">
     <meta name="author" content="Ch3nyang">
-    <link rel="stylesheet" href="/static/style/common.css">
-    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/common.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.svg') }}" type="image/svg+xml">
   </head>
 
   <body>
-    <h1>My GitHub 2024</h1>
+    <h1>My GitHub {{ project_year }}</h1>
     <!-- <div class="button">
-      <button onclick="window.open('https://github.com/WCY-dt/my-github-2024', '_blank')" type="button" id="star">
+      <button onclick="window.open('https://github.com/{{ star_repo }}', '_blank')" type="button" id="star">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20">
           <path
             d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z">
@@ -61,7 +61,7 @@
       <label for="year">Year</label>
       <select id="year" name="year">
         {% for year in range(2008, current_year + 1) %}
-          <option value="{{ year }}" {% if year == 2024 %}selected{% endif %}>{{ year }}</option>
+          <option value="{{ year }}" {% if year == project_year|int %}selected{% endif %}>{{ year }}</option>
         {% endfor %}
       </select>
       <button type="submit" id="generate">
@@ -74,5 +74,5 @@
       </button>
     </form>
   </body>
-  <script src="/static/js/dashboard.js"></script>
+  <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </html>
