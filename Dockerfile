@@ -23,7 +23,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Create necessary directories
-RUN mkdir -p log static/img static/js static/style templates util
+RUN mkdir -p log instance
 
 # Create a non-root user
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
@@ -33,4 +33,4 @@ USER appuser
 EXPOSE 5000
 
 # Run the application
-CMD ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=5000"]
+CMD ["python", "main.py"]
